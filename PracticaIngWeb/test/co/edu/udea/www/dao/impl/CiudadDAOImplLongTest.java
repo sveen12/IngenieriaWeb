@@ -2,31 +2,30 @@ package co.edu.udea.www.dao.impl;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import org.junit.Test;
-import co.edu.udea.www.dao.CiudadDAO;
+
 import co.edu.udea.www.dto.CiudadDTO;
 import co.edu.udea.www.exception.MyException;
+import co.edu.udea.www.dao.CiudadDAO;
 
-public class CiudadDAOImplTest {
+public class CiudadDAOImplLongTest {
 
 	/**
-	 * Testea el metodo obtener, recibiendo una lista con longitud
-	 * mayor que 0.
+	 * Testea el metodo obtener enviandole un codigo de ciudad y recibiendo una
 	 */
-	@Test
-	public void testObtener() {
+	@Test 
+	public void testObtenerLong() {
 		CiudadDAO ciudadDAO = null;
-		List<CiudadDTO> lista = null;
+		CiudadDTO ciudad = null;
 		
 		try{
 			ciudadDAO = new CiudadDAOImpl();
-			lista = ciudadDAO.obtener();
-			assertTrue(lista.size()>0);
+			ciudad = ciudadDAO.obtener(539211L);
+			assertTrue(ciudad!=null);
 		}catch (MyException e) {
 			fail(e.getMessage());
 		}
+		
 	}
 
 }
