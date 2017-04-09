@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.udea.www.dto.CiudadDTO" table="ciudades">
+        <id name="codigo" type="long">
+            <column name="CODIGO" precision="12"/>
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="java.lang.String">
+            <column name="NOMBRE" length="50" not-null="true"/>
+        </property>
+        <property name="codigoArea" type="java.lang.String">
+            <column name="CODIGOAREA" length="4" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>

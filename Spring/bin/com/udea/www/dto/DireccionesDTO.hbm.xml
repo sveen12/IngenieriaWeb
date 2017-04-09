@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.udea.www.dto.DireccionesDTO" table="direcciones">
+        <composite-id name="id" class="com.udea.www.dto.DireccionIDDTO">
+        	<key-property name="codigo" type="java.lang.Long">
+        		<column name="CODIGO" length="12"/>
+        	</key-property>
+        	<key-many-to-one name="Cliente" class="com.udea.www.dto.ClienteDTO">
+        		<column name="CLIENTE"></column>
+        	</key-many-to-one>
+        </composite-id>
+        <property name="direccion" type="java.lang.String">
+            <column name="DIRECCION" length="15" not-null="false"/>
+        </property>
+        <property name="telefono" type="java.lang.String">
+            <column name="TELEFONO" length="45" not-null="false"/>
+        </property>
+        <property name="ciudad" type="java.lang.Long">
+            <column name="CIUDAD" length="12" not-null="false"/>
+        </property>
+        <property name="preferido" type="java.lang.Boolean">
+            <column name="PREFERIDA" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>
