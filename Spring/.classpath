@@ -4,29 +4,29 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/hibernate3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/javassist-3.12.0.GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/mysql-connector-java-5.1.22-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/IngWebJPA/slf4j-log4j12-1.7.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/com.springsource.org.aopalliance-1.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/commons-logging.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-aop-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-beans-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-context-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-core-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-expression-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-jdbc-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-orm-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-test-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-tx-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/workspace/Spring4/spring-web-4.1.6.RELEASE.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/com.springsource.org.aopalliance-1.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-aop-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-beans-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-context-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-core-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-expression-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-jdbc-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-orm-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-test-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-tx-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/Spring4/spring-web-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/javassist-3.12.0.GA.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Lenovo/Desktop/Personal/Universidad/workspace/Eclipse/IngWebJPA/slf4j-log4j12-1.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

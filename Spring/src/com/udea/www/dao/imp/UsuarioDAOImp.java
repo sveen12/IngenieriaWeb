@@ -65,4 +65,27 @@ public class UsuarioDAOImp {
 			
 			return usuario;
 		}
+		
+		/**
+		 * Este metodo valida que un usuario exista en el sistema dado su login y contraseña
+		 * @param login es el nombre de usuario
+		 * @param contrasena contraseña para ingresar al sistema
+		 * @return	Retorna una instancia del usuario
+		 * @throws MyException
+		 */
+		public UsuarioDTO validarUsuario(String login, String contrasena) throws MyException{
+			UsuarioDTO usuario= new UsuarioDTO();
+			Session session=null;
+			try{
+				session = sessionFactory.getCurrentSession();
+				Criteria criteria = session.createCriteria(UsuarioDTO.class);
+				criteria.add(Restrictions.eq("login", login));
+				criteria.add(Restrictions.eq("contrasena", contrasena));
+				usuario = (UsuarioDTO)criteria.uniqueResult();
+			}catch(HibernateException e){
+				throw new MyException("Error consultando el usuario", e);
+			}
+			
+			return usuario;
+		}
 }

@@ -1,7 +1,6 @@
-package com.udea.www.dao;
+package com.udea.www.bl;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,32 +10,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.udea.www.Exception.MyException;
-import com.udea.www.dao.imp.ClienteDAOImp;
-import com.udea.www.dao.imp.UsuarioDAOImp;
+import com.udea.www.dto.ClienteDTO;
 import com.udea.www.dto.UsuarioDTO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
 @ContextConfiguration(locations = "/configuration.xml")
-public class UsuarioDAOTest {
-	
+public class UsuarioBLTest {
+
 	@Autowired
 	//PARA INYECTAR EL BEAN QUE SE DEFINIO EN EL ARHCIVO DE CONFIGURACION
-	UsuarioDAOImp usuario;
+	private UsuarioBL usuarioBL;
 	
 	@Test
-	public void testObtener(){
-		String login = "elver";
-		UsuarioDTO user = null;
+	public void testValidarUsuario() {
+		UsuarioDTO usuario;
+		
 		try{
-			user = usuario.obtener(login);
-			assertTrue(user!=null);
-			System.out.println(user.getNombres()+"-"+
-								user.getRol().getNombre()+"-" +
-								user.getContrasena());
+			usuario = usuarioBL.validarUsuario("elver", "1g0/KkFdhrmg1DYJWFdd2A==");
+			assertTrue(usuario != null);
 		}catch(MyException e){
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
+
 }

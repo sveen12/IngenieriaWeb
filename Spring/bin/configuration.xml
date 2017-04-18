@@ -56,6 +56,16 @@
 	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
 		<property name = "sessionFactory" ref="sessionFactory"></property>	
 	</bean>
+	
+	<bean id = "ClienteBL" class ="com.udea.www.bl.ClienteBL">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "ClienteDAO" ref="ClienteDAO"></property>	
+		<property name = "UsuarioDAO" ref="UsuarioDAO"></property>	
+	</bean>
+		<bean id = "UsuarioBL" class ="com.udea.www.bl.UsuarioBL">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "UsuarioDAO" ref="UsuarioDAO"></property>	
+	</bean>
 
 
 </beans>
