@@ -1,4 +1,4 @@
-package com.udea.www.bl;
+package co.edu.udea.donaciones.bl;
 
 import static org.junit.Assert.*;
 

@@ -234,6 +234,12 @@ public class EmpleadoBL {
 		donacionSedeDAO.guardar(donacionSedeDTO);
 	}
 	
+	/**
+	 * Con este metodo se obtienen las preguntas de un examen de eps
+	 * @param enfermero quien solicita las preguntas
+	 * @return lista con las preguntas
+	 * @throws MyException
+	 */
 	public List<PreguntaDTO> obtenerPreguntas(EmpleadoDTO enfermero) throws MyException{
 		if(enfermero == null){
 			throw new MyException("El empleado no puede estar vacio");
@@ -252,6 +258,13 @@ public class EmpleadoBL {
 		return preguntaDAO.obtener(examenes.get(0));
 	}
 	
+	/**
+	 * Este metodo guarda las respuestas ingresadas al sistema
+	 * @param respuestas lista con las respuestas
+	 * @param enfermero quien registra las respuestas
+	 * @return true si se guardan correctamente
+	 * @throws MyException
+	 */
 	public boolean guardarRespuestas(List<RespuestaDTO> respuestas, EmpleadoDTO enfermero) throws MyException{
 		
 		if(respuestas == null){

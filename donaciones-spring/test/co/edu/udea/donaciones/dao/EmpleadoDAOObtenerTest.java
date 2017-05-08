@@ -1,4 +1,4 @@
-package com.udea.www.dao;
+package co.edu.udea.donaciones.dao;
 
 import static org.junit.Assert.*;
 
