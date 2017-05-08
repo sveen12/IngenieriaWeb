@@ -3,12 +3,15 @@ package com.udea.www.bl;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.udea.www.Exception.MyException;
 import com.udea.www.dao.imp.ClienteDAOImp;
 import com.udea.www.dao.imp.UsuarioDAOImp;
 import com.udea.www.dto.ClienteDTO;
 import com.udea.www.dto.UsuarioDTO;
 
+@Transactional
 public class ClienteBL {
 	private ClienteDAOImp clienteDAO;
 	private UsuarioDAOImp usuarioDAO;

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name = "driverClassName" value ="com.mysql.jdbc.Driver"/>
+		<property name = "url" value = "jdbc:mysql://localhost:3306/donaciones"/>
+		<property name = "username" value = "root"/>
+		<property name = "password" value = "root"/>		
+	</bean>
+	
+	<bean id = "sessionFactory" class = "org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name = "dataSource" ref = "dataSource"/>
+		<property name = "mappingResources">
+			<list>
+				<value>co/edu/udea/donaciones/dto/CargoDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/CitaDTO.hbm.xml</value>	
+				<value>co/edu/udea/donaciones/dto/DatosDonacionDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/DonacionExternaDTO.hbm.xml</value>	
+				<value>co/edu/udea/donaciones/dto/DonacionSedeDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/DonacionUsuarioRegistradoDTO.hbm.xml</value>	
+				<value>co/edu/udea/donaciones/dto/DonanteDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/EmpleadoDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/EPSDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/ExamenDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/PreguntaDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/RespuestaDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/RHDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/SedeDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/UnidadMovilDTO.hbm.xml</value>
+				<value>co/edu/udea/donaciones/dto/UsuarioRegistradoDTO.hbm.xml</value>
+			</list>
+		</property>
+		<property name = "hibernateProperties">
+			<props>
+				<prop key="hibernate.dialectic">org.hibernate.dialect.MySQLDialect</prop>
+				<!--- Mientras se este en desarrollo. Si se pasa a produccion false -->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="javax.persistence.validation.mode"/>
+				
+			</props>
+		</property>			
+	</bean>
+	
+	<bean id = "transactionManager" class = "org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref = "sessionFactory"></property>
+		<property name="dataSource" ref = "dataSource"></property>
+	</bean>
+	
+
+	<bean id = "CargoDAO" class ="co.edu.udea.donaciones.dao.imp.CargoDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "CitaDAO" class ="co.edu.udea.donaciones.dao.imp.CitaDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "DonacionExternaDAO" class ="co.edu.udea.donaciones.dao.imp.DonacionExternaDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "DonacionSedeDAO" class ="co.edu.udea.donaciones.dao.imp.DonacionSedeDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "DonacionUsuarioRegistradoDAO" class ="co.edu.udea.donaciones.dao.imp.DonacionUsuarioRegistradoDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "DonanteDAO" class ="co.edu.udea.donaciones.dao.imp.DonanteDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "EmpleadoDAO" class ="co.edu.udea.donaciones.dao.imp.EmpleadoDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	<bean id = "ExamenDAO" class ="co.edu.udea.donaciones.dao.imp.ExamenDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "PreguntaDAO" class ="co.edu.udea.donaciones.dao.imp.PreguntaDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "RespuestaDAO" class ="co.edu.udea.donaciones.dao.imp.RespuestaDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+		<bean id = "RhDAO" class ="co.edu.udea.donaciones.dao.imp.RhDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id = "UsuarioRegistradoDAO" class ="co.edu.udea.donaciones.dao.imp.UsuarioRegistradoDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	<bean id = "EmpleadoBL" class ="co.edu.udea.donaciones.bl.EmpleadoBL">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "EmpleadoDAO" ref="EmpleadoDAO"></property>
+		<property name = "DonacionExternaDAO" ref="DonacionExternaDAO"></property>	
+		<property name = "DonacionUsuarioRegistradoDAO" ref="DonacionUsuarioRegistradoDAO"></property>
+		<property name = "DonacionSedeDAO" ref="DonacionSedeDAO"></property>	
+		<property name = "RhDAO" ref="RhDAO"></property>	
+		<property name = "PreguntaDAO" ref="PreguntaDAO"></property>	
+		<property name = "ExamenDAO" ref="ExamenDAO"></property>	
+		<property name = "UsuarioRegistradoDAO" ref="UsuarioRegistradoDAO"></property>
+		<property name = "RespuestaDAO" ref="RespuestaDAO"></property>	
+	</bean>
+	<bean id = "UsuarioRegistradoBL" class ="co.edu.udea.donaciones.bl.UsuarioRegistradoBL">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "UsuarioRegistradoDAO" ref="UsuarioRegistradoDAO"></property>
+		<property name = "DonanteDAO" ref="DonanteDAO"></property>	
+		<property name = "RhDAO" ref="RhDAO"></property>	
+		<property name = "CitaDAO" ref="CitaDAO"></property>	
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

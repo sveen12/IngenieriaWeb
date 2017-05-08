@@ -36,7 +36,6 @@
 		</property>			
 	</bean>
 	
-	
 	<bean id = "transactionManager" class = "org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref = "sessionFactory"></property>
 		<property name="dataSource" ref = "dataSource"></property>
@@ -62,10 +61,11 @@
 		<property name = "ClienteDAO" ref="ClienteDAO"></property>	
 		<property name = "UsuarioDAO" ref="UsuarioDAO"></property>	
 	</bean>
-		<bean id = "UsuarioBL" class ="com.udea.www.bl.UsuarioBL">
+	
+	<bean id = "UsuarioBL" class ="com.udea.www.bl.UsuarioBL">
 	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
 		<property name = "UsuarioDAO" ref="UsuarioDAO"></property>	
 	</bean>
-
-
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<context:component-scan base-package="co.edu.udea.ws"/>
 </beans>

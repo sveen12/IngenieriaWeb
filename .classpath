@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="PracticaIngWeb/src"/>
+	<classpathentry kind="src" path="PracticaIngWeb/test"/>
+	<classpathentry kind="src" path="ServiciosREST/src"/>
+	<classpathentry kind="src" path="Spring/src"/>
+	<classpathentry kind="src" path="Spring/test"/>
+	<classpathentry kind="lib" path="PracticaIngWeb/mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="output" path="PracticaIngWeb/bin"/>
+</classpath>

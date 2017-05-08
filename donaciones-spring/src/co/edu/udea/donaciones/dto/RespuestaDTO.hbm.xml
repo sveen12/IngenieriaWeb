@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="co.edu.udea.donaciones.dto.RespuestaDTO" table="respuesta">
+        <id name="id" type="integer">
+            <column name="id"/>
+            <generator class="assigned" />
+        </id>
+        <property name="descripcion" type="java.lang.String">
+            <column name="descripcion" length="45"/>
+        </property>
+        <many-to-one class="co.edu.udea.donaciones.dto.DonanteDTO" name="documentoDonante" lazy="proxy" fetch="join">
+            <column name="documentoDonante"/>
+        </many-to-one>
+        <many-to-one class="co.edu.udea.donaciones.dto.PreguntaDTO" name="idPregunta" lazy="proxy" fetch="join">
+            <column name="idPregunta"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="co.edu.udea.donaciones.dto.DonanteDTO" table="donante">
+        <id name="documento" type="java.lang.String">
+            <column name="documento" length="20"/>
+            <generator class="assigned" />
+        </id>
+        <property name="direccion" type="java.lang.String">
+            <column name="direccion" length="45"/>
+        </property>
+        <property name="edad" type="java.lang.String">
+            <column name="edad" length="45"/>
+        </property>
+        <property name="apto" type="java.lang.String">
+            <column name="apto" length="45"/>
+        </property>
+        <property name="estadoCivil" type="java.lang.String">
+            <column name="estadoCivil" length="45"/>
+        </property>
+
+        <property name="estadoSalud" type="java.lang.String">
+            <column name="estadoSalud" length="45"/>
+        </property>
+        
+        <property name="fechaNacimiento" type="java.util.Date">
+            <column name="fechaNacimiento"/>
+        </property>
+        
+        <property name="nombres" type="java.lang.String">
+            <column name="nombres" length="45"/>
+        </property>
+        <property name="apellidos" type="java.lang.String">
+            <column name="apellidos" length="45"/>
+        </property>
+        <property name="peso" type="integer">
+            <column name="peso"/>
+        </property>
+        <property name="ultimaDonacion" type="java.util.Date">
+            <column name="ultimaDonacion" />
+        </property>
+		<many-to-one class="co.edu.udea.donaciones.dto.RHDTO" name="rh" lazy="proxy" fetch="join">
+            <column name="rh"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

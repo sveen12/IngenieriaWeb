@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="co.edu.udea.donaciones.dto.UsuarioRegistradoDTO" table="usuarioregistrado">
+        <id name="usuario" type="java.lang.String">
+            <column name="usuario"/>
+            <generator class="assigned" />
+        </id>
+        <property name="contrasena" type="java.lang.String">
+            <column name="contrasena" length="45"/>
+        </property>
+        <many-to-one  class="co.edu.udea.donaciones.dto.DonanteDTO" name="documentoUsuario" lazy="proxy" fetch="join" cascade="all" unique="true">
+            <column name="documentoUsuario" length="20"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

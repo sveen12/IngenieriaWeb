@@ -1,9 +1,12 @@
 package com.udea.www.bl;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.udea.www.Exception.MyException;
 import com.udea.www.dao.imp.UsuarioDAOImp;
 import com.udea.www.dto.UsuarioDTO;
 
+@Transactional
 public class UsuarioBL {
 	UsuarioDAOImp usuarioDAO;
 

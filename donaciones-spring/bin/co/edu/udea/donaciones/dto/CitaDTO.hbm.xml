@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="co.edu.udea.donaciones.dto.CitaDTO" table="cita">
+        <id name="id" type="integer">
+            <column name="id"/>
+            <generator class="assigned" />
+        </id>
+        <property name="estadoCita" type="java.lang.String">
+            <column name="estadoCita" length="45"/>
+        </property>
+        <property name="fecha" type="java.util.Date">
+            <column name="fecha" />
+        </property>
+        <property name="hora" type="java.lang.String">
+            <column name="hora" length="45"/>
+        </property>
+        <many-to-one class="co.edu.udea.donaciones.dto.EmpleadoDTO" name="idEnfermero" lazy="proxy" fetch="join">
+            <column name="idEnfermero"/>
+        </many-to-one>
+        <many-to-one class="co.edu.udea.donaciones.dto.SedeDTO" name="idSede" lazy="proxy" fetch="join">
+            <column name="idSede"/>
+        </many-to-one>
+        <many-to-one class="co.edu.udea.donaciones.dto.UsuarioRegistradoDTO" name="idUsuarioRegistrado" lazy="proxy" fetch="join">
+            <column name="idUsuarioRegistrado"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
