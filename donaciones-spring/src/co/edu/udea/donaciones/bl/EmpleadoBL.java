@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udea.donaciones.dao.imp.CargoDAOImp;
+import co.edu.udea.donaciones.dao.imp.CitaDAOImp;
 import co.edu.udea.donaciones.dao.imp.DonacionExternaDAOImp;
 import co.edu.udea.donaciones.dao.imp.DonacionSedeDAOImp;
 import co.edu.udea.donaciones.dao.imp.DonacionUsuarioRegistradoDAOImp;
@@ -16,7 +18,9 @@ import co.edu.udea.donaciones.dao.imp.ExamenDAOImp;
 import co.edu.udea.donaciones.dao.imp.PreguntaDAOImp;
 import co.edu.udea.donaciones.dao.imp.RespuestaDAOImp;
 import co.edu.udea.donaciones.dao.imp.RhDAOImp;
+import co.edu.udea.donaciones.dao.imp.UnidadMovilDAOImp;
 import co.edu.udea.donaciones.dao.imp.UsuarioRegistradoDAOImp;
+import co.edu.udea.donaciones.dto.CitaDTO;
 import co.edu.udea.donaciones.dto.DatosDonacionDTO;
 import co.edu.udea.donaciones.dto.DonacionExternaDTO;
 import co.edu.udea.donaciones.dto.DonacionSedeDTO;
@@ -29,6 +33,7 @@ import co.edu.udea.donaciones.dto.PreguntaDTO;
 import co.edu.udea.donaciones.dto.RHDTO;
 import co.edu.udea.donaciones.dto.RespuestaDTO;
 import co.edu.udea.donaciones.dto.SedeDTO;
+import co.edu.udea.donaciones.dto.UnidadMovilDTO;
 import co.edu.udea.donaciones.dto.UsuarioRegistradoDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
@@ -48,6 +53,90 @@ public class EmpleadoBL {
 	private PreguntaDAOImp preguntaDAO;
 	private ExamenDAOImp examenDAO;
 	private RespuestaDAOImp respuestaDAO;
+	private UnidadMovilDAOImp unidadMovilDAO;
+	private CitaDAOImp citaDAO;
+	private CargoDAOImp cargoDAO;
+	
+	/**
+	 * Metodo por medio del cual un administrador registra un empleado 
+	 * @param empleadoDTO que se registrara
+	 * @param usuarioRegistra usuario que registra el empleado
+	 * @return true si se registra satisfactoriamente
+	 * @throws MyException
+	 */
+	public boolean registrarEmpleado(EmpleadoDTO empleadoDTO, EmpleadoDTO usuarioRegistra) throws MyException{
+		if(empleadoDTO==null){
+			throw new MyException("No se puede registrar un empleado vacio.");
+		}
+		if(!usuarioRegistra.getIdCargo().getNombre().equals("administrador"))
+		{
+			throw new MyException("El administrador es el unico que puede registrar usuarios.");
+		}
+		return empleadoDAO.registrarEmpleado(empleadoDTO);
+	}
+	
+	/**
+	 * Con este metodo se registran las distintas unidades moviles
+	 * @param unidadMovilDTO unidad movil que se registrara
+	 * @param usuarioRegistra usuario que registra la unidad movil
+	 * @return true si se registra correctamente
+	 * @throws MyException
+	 */
+	public boolean registrarUnidadMovil(UnidadMovilDTO unidadMovilDTO, EmpleadoDTO usuarioRegistra) throws MyException{
+		if(unidadMovilDTO==null){
+			throw new MyException("No se puede registrar una uniadad movil vacia.");
+		}
+		if(!usuarioRegistra.getIdCargo().getNombre().equals("administrador"))
+		{
+			throw new MyException("El administrador es el unico que puede registrar usuarios.");
+		}
+		return unidadMovilDAO.guardar(unidadMovilDTO);
+	}
+	
+	/**
+	 * Metodo para programar citas en el sistema por un administrador
+	 * @param citaDTO la cita que se programara
+	 * @param enfermero al que se le programa la cita
+	 * @param administrador que programa la cita
+	 * @return true si se programo la cita satisfactoriamente
+	 * @throws MyException
+	 */
+	public boolean programarCitas(CitaDTO citaDTO, EmpleadoDTO enfermero, EmpleadoDTO administrador) throws MyException{
+		if(citaDTO==null){
+			throw new MyException("No se puede registrar una cita vacia.");
+		}
+		if(!administrador.getIdCargo().getNombre().equals("administrador"))
+		{
+			throw new MyException("El administrador es el unico que puede programar una cita.");
+		}if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
+			throw new MyException("Solo se le puede programar una cita a un enfermero");
+		}
+		
+		citaDTO.setIdEnfermero(enfermero);
+		citaDTO.setIdSede(enfermero.getIdSede());
+		
+		return citaDAO.asignar(citaDTO);
+	}
+	
+	/**
+	 * Con este metodo se consultan  las respuestas de un usuario dado
+	 * @param donanteDTO donante del que se obtendran las respuestas
+	 * @return retorna la lista de respuestas del donante dado
+	 * @throws MyException
+	 */
+	public List<RespuestaDTO> consultarRespuestas (DonanteDTO donanteDTO) throws MyException{
+		if(donanteDTO == null){
+			throw new MyException("No se pueden obtener las respuestas para un donante nulo.");
+		}
+		
+		List<RespuestaDTO> respuestas = respuestaDAO.obtener(donanteDTO);
+		
+		if(respuestas.isEmpty()){
+			throw new MyException("No hay respuestas registradas del usuario solicitado.");
+		}
+		
+		return respuestas;
+	}
 	
 	/**
 	 * Validar el logueo de un empleado 
@@ -240,22 +329,30 @@ public class EmpleadoBL {
 	 * @return lista con las preguntas
 	 * @throws MyException
 	 */
-	public List<PreguntaDTO> obtenerPreguntas(EmpleadoDTO enfermero) throws MyException{
+	public List<PreguntaDTO> obtenerPreguntas(EmpleadoDTO enfermero, String version) throws MyException{
 		if(enfermero == null){
 			throw new MyException("El empleado no puede estar vacio");
 		}else if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
 			throw new MyException("Debe ser enfermero para realizar esta acción");
+		}else if(version.equals("") || version ==null){
+			throw new MyException("Debe ingresar una version valida para obtener el examen");
 		}
 		
 		System.out.println(enfermero.getIdSede().getIdEPS().getNombre());
 		EPSDTO eps = enfermero.getIdSede().getIdEPS();
+		
 		List<ExamenDTO> examenes = 
 				examenDAO.obtener(eps);
 		if(examenes.isEmpty()){
 			throw new MyException("No hay preguntas registradas por la eps");
 		}
-				
-		return preguntaDAO.obtener(examenes.get(0));
+		
+		for(ExamenDTO examen : examenes){
+			if(examen.getVersion().equals(version)){ 
+				return preguntaDAO.obtener(examen);
+			}
+		}
+		throw new MyException("No hay un examen con la version " + version);
 	}
 	
 	/**
@@ -356,6 +453,29 @@ public class EmpleadoBL {
 
 	public void setRespuestaDAO(RespuestaDAOImp respuestaDAO) {
 		this.respuestaDAO = respuestaDAO;
+	}
+	public UnidadMovilDAOImp getUnidadMovilDAO() {
+		return unidadMovilDAO;
+	}
+
+	public void setUnidadMovilDAO(UnidadMovilDAOImp unidadMovilDAO) {
+		this.unidadMovilDAO = unidadMovilDAO;
+	}
+
+	public CitaDAOImp getCitaDAO() {
+		return citaDAO;
+	}
+
+	public void setCitaDAO(CitaDAOImp citaDAO) {
+		this.citaDAO = citaDAO;
+	}
+
+	public CargoDAOImp getCargoDAO() {
+		return cargoDAO;
+	}
+
+	public void setCargoDAO(CargoDAOImp cargoDAO) {
+		this.cargoDAO = cargoDAO;
 	}
 
 

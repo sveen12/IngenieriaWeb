@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.donaciones.dao.EmpleadoDAO;
 import co.edu.udea.donaciones.dto.EmpleadoDTO;
+import co.edu.udea.donaciones.dto.UsuarioRegistradoDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
 public class EmpleadoDAOImp implements EmpleadoDAO {
@@ -57,11 +58,22 @@ public class EmpleadoDAOImp implements EmpleadoDAO {
 	}
 
 	@Override
-	public void registrarEnfermero(EmpleadoDTO enfermero) throws MyException {
+	public boolean registrarEmpleado(EmpleadoDTO empleado) throws MyException {
 		Session session=null;
+		EmpleadoDTO enfermeroExiste;
 		try{
 			session = sessionFactory.getCurrentSession();
-			session.saveOrUpdate(enfermero);
+			Criteria criteria1 = session.createCriteria(EmpleadoDTO.class);
+			criteria1.add(Restrictions.eq("usuario", empleado.getUsuario()));
+			enfermeroExiste = (EmpleadoDTO)criteria1.uniqueResult();
+			
+			if(enfermeroExiste != null){
+				throw new MyException("El usuario ya existe");
+			}	
+			
+			session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(empleado);
+			return true;
 		}catch(HibernateException e){
 			throw new MyException("Error guardando enfermero en el sistema", e);
 		}

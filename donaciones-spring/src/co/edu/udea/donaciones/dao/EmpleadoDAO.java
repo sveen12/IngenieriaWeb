@@ -33,5 +33,5 @@ public interface EmpleadoDAO {
 	 * @param emfermero El enfermero que se quiere guardar
 	 * @throws MyException
 	 */
-	public void registrarEnfermero(EmpleadoDTO enfermero) throws MyException;
+	public boolean registrarEmpleado(EmpleadoDTO empleado) throws MyException;
 }

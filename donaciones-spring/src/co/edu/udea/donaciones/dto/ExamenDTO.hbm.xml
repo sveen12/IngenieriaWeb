@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 16/03/2017 01:20:53 PM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="co.edu.udea.donaciones.dto.ExamenDTO" table="datosdonacion">
+    <class name="co.edu.udea.donaciones.dto.ExamenDTO" table="examen">
         <id name="id" type="integer">
             <column name="id"/>
             <generator class="assigned" />

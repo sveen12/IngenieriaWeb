@@ -105,7 +105,10 @@
 	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
 		<property name = "sessionFactory" ref="sessionFactory"></property>	
 	</bean>
-	
+		<bean id = "UnidadMovilDAO" class ="co.edu.udea.donaciones.dao.imp.UnidadMovilDAOImp">
+	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
+		<property name = "sessionFactory" ref="sessionFactory"></property>	
+	</bean>
 	<bean id = "UsuarioRegistradoDAO" class ="co.edu.udea.donaciones.dao.imp.UsuarioRegistradoDAOImp">
 	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->
 		<property name = "sessionFactory" ref="sessionFactory"></property>	
@@ -121,6 +124,9 @@
 		<property name = "ExamenDAO" ref="ExamenDAO"></property>	
 		<property name = "UsuarioRegistradoDAO" ref="UsuarioRegistradoDAO"></property>
 		<property name = "RespuestaDAO" ref="RespuestaDAO"></property>	
+		<property name = "UnidadMovilDAO" ref="UnidadMovilDAO"></property>		
+		<property name = "CitaDAO" ref="CitaDAO"></property>
+		<property name = "CargoDAO" ref="CargoDAO"></property>
 	</bean>
 	<bean id = "UsuarioRegistradoBL" class ="co.edu.udea.donaciones.bl.UsuarioRegistradoBL">
 	<!--- Para inyectarle al atributo de la clase sessionFactory el bean sessionFactory que se creo aqui -->

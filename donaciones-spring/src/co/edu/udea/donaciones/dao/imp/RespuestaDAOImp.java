@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.donaciones.dao.RespuestaDAO;
+import co.edu.udea.donaciones.dto.DonanteDTO;
 import co.edu.udea.donaciones.dto.RespuestaDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
@@ -25,14 +26,14 @@ public class RespuestaDAOImp implements RespuestaDAO {
 	}
 	
 	@Override
-	public List<RespuestaDTO> obtener(String cedula) throws MyException {
+	public List<RespuestaDTO> obtener(DonanteDTO donanteDTO) throws MyException {
 		List<RespuestaDTO> respuestaDTOs = new ArrayList<RespuestaDTO>();
 		Session session=null;
 		Criteria criteria = null;
 		try{
 			session = sessionFactory.getCurrentSession();
 			criteria = session.createCriteria(RespuestaDTO.class);
-			criteria.add(Restrictions.eq("documentoDonante", cedula));
+			criteria.add(Restrictions.eq("documentoDonante", donanteDTO));
 			respuestaDTOs=criteria.list();
 		}catch(HibernateException e){
 			throw new MyException("Error obteniendo respuestas por usuario", e);

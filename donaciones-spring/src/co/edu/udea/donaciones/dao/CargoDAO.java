@@ -19,4 +19,6 @@ public interface CargoDAO {
 	 * @throws MyException
 	 */
 	public List<CargoDTO> obtener() throws MyException;
+	
+	public CargoDTO obtener(String cargo) throws MyException;
 }

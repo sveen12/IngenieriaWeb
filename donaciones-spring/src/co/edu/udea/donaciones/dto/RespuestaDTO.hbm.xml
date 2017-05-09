@@ -6,7 +6,7 @@
     <class name="co.edu.udea.donaciones.dto.RespuestaDTO" table="respuesta">
         <id name="id" type="integer">
             <column name="id"/>
-            <generator class="assigned" />
+            <generator class="increment" />            
         </id>
         <property name="descripcion" type="java.lang.String">
             <column name="descripcion" length="45"/>
