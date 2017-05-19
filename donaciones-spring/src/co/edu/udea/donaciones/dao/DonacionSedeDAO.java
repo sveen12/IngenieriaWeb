@@ -17,7 +17,7 @@ public interface DonacionSedeDAO {
 	 * @param donacionSedeDTO donacion que se quiere guardar
 	 * @throws MyException
 	 */
-	public void guardar(DonacionSedeDTO donacionSedeDTO) throws MyException;
+	public boolean guardar(DonacionSedeDTO donacionSedeDTO) throws MyException;
 	
 	/**
 	 * Lista de donaciones externas

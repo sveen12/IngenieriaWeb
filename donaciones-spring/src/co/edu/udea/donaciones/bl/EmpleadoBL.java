@@ -8,18 +8,25 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import co.edu.udea.donaciones.dao.DatosDonacionDAO;
+import co.edu.udea.donaciones.dao.DonanteDAO;
+import co.edu.udea.donaciones.dao.UnidadMovilDAO;
 import co.edu.udea.donaciones.dao.imp.CargoDAOImp;
 import co.edu.udea.donaciones.dao.imp.CitaDAOImp;
+import co.edu.udea.donaciones.dao.imp.DatosDonacionDAOImp;
 import co.edu.udea.donaciones.dao.imp.DonacionExternaDAOImp;
 import co.edu.udea.donaciones.dao.imp.DonacionSedeDAOImp;
 import co.edu.udea.donaciones.dao.imp.DonacionUsuarioRegistradoDAOImp;
+import co.edu.udea.donaciones.dao.imp.DonanteDAOImp;
 import co.edu.udea.donaciones.dao.imp.EmpleadoDAOImp;
 import co.edu.udea.donaciones.dao.imp.ExamenDAOImp;
 import co.edu.udea.donaciones.dao.imp.PreguntaDAOImp;
 import co.edu.udea.donaciones.dao.imp.RespuestaDAOImp;
 import co.edu.udea.donaciones.dao.imp.RhDAOImp;
+import co.edu.udea.donaciones.dao.imp.SedeDAOImp;
 import co.edu.udea.donaciones.dao.imp.UnidadMovilDAOImp;
 import co.edu.udea.donaciones.dao.imp.UsuarioRegistradoDAOImp;
+import co.edu.udea.donaciones.dto.CargoDTO;
 import co.edu.udea.donaciones.dto.CitaDTO;
 import co.edu.udea.donaciones.dto.DatosDonacionDTO;
 import co.edu.udea.donaciones.dto.DonacionExternaDTO;
@@ -56,7 +63,11 @@ public class EmpleadoBL {
 	private UnidadMovilDAOImp unidadMovilDAO;
 	private CitaDAOImp citaDAO;
 	private CargoDAOImp cargoDAO;
+	private DonanteDAOImp donanteDAO;
+	private SedeDAOImp sedeDAO;
+	private DatosDonacionDAOImp datosDonacionDAO;
 	
+
 	/**
 	 * Metodo por medio del cual un administrador registra un empleado 
 	 * @param empleadoDTO que se registrara
@@ -64,14 +75,82 @@ public class EmpleadoBL {
 	 * @return true si se registra satisfactoriamente
 	 * @throws MyException
 	 */
-	public boolean registrarEmpleado(EmpleadoDTO empleadoDTO, EmpleadoDTO usuarioRegistra) throws MyException{
-		if(empleadoDTO==null){
-			throw new MyException("No se puede registrar un empleado vacio.");
+	public boolean registrarEmpleado(
+			 String documento,
+			 String direccion,
+			 String nombres,
+			 String apellidos,
+			 String telefono,
+			 String usuario,
+			 String contrasena,
+			 String cargo,
+			 int unidadmovil,
+			 String usuarioRegistraUsuario) throws MyException{
+		
+		if(usuarioRegistraUsuario==null || usuarioRegistraUsuario.equals("")){
+			throw new MyException("Ingrese un usuario que registra valido.");
+		}	
+		
+		EmpleadoDTO usuarioRegistra = 
+				empleadoDAO.obtener(usuarioRegistraUsuario);
+		if(usuarioRegistra == null){
+			throw new MyException("El usuario que registra no se encontro en el sistema.");	
 		}
+		
 		if(!usuarioRegistra.getIdCargo().getNombre().equals("administrador"))
 		{
 			throw new MyException("El administrador es el unico que puede registrar usuarios.");
 		}
+		
+		if(documento == null || documento.equals("")){
+			throw new MyException("El empleado debe tener un documento.");
+		}else if(direccion == null || "".equals(direccion)){
+			throw new MyException("La direccion no puede ser vacia.");			
+		}else if(nombres == null || "".equals(nombres)){
+			throw new MyException("El nombre no puede ser vacio.");			
+		}else if(apellidos == null || "".equals(apellidos)){
+			throw new MyException("El apellido no puede ser vacio.");			
+		}else if(telefono == null || "".equals(telefono)){
+			throw new MyException("El telefono no puede ser vacio.");			
+		}else if(usuario == null || "".equals(usuario)){
+			throw new MyException("El usuario no puede ser vacio.");			
+		}else if(contrasena == null || "".equals(contrasena)){
+			throw new MyException("La contraseña no puede estar vacia.");
+		}else if(cargo == null || "".equals(cargo)){
+			throw new MyException("El cargo no puede ser vacio.");			
+		}else if(unidadmovil <=0 ){
+			throw new MyException("Ingrese una unidad movil correcta.");			
+		}	
+		
+		 
+		 if(empleadoDAO.obtener(usuario)!=null){
+			 throw new MyException("Ya existe un empleado con el mismo usuario.");
+		 }
+		 CargoDTO cargoDTO = cargoDAO.obtener(cargo);
+		 
+		 if(cargoDTO == null){
+			 throw new MyException("El cargo asignado al empleado no existe.");
+		 }
+		 
+		 UnidadMovilDTO unidadMovilDTO = unidadMovilDAO.obtener(unidadmovil);
+		 
+		 if(unidadMovilDTO == null){
+			 throw new MyException("La unidad movil asignada no existe.");
+		 }
+		 
+		 EmpleadoDTO empleadoDTO = new EmpleadoDTO();
+		 
+		 empleadoDTO.setApellidos(apellidos);
+		 empleadoDTO.setContrasena(contrasena);
+		 empleadoDTO.setDireccion(direccion);
+		 empleadoDTO.setDocumento(documento);
+		 empleadoDTO.setIdCargo(cargoDTO);
+		 empleadoDTO.setIdSede(usuarioRegistra.getIdSede());
+		 empleadoDTO.setIdUnidadMovil(unidadMovilDTO);
+		 empleadoDTO.setNombres(nombres);
+		 empleadoDTO.setTelefono(telefono);
+		 empleadoDTO.setUsuario(usuario);
+
 		return empleadoDAO.registrarEmpleado(empleadoDTO);
 	}
 	
@@ -82,14 +161,37 @@ public class EmpleadoBL {
 	 * @return true si se registra correctamente
 	 * @throws MyException
 	 */
-	public boolean registrarUnidadMovil(UnidadMovilDTO unidadMovilDTO, EmpleadoDTO usuarioRegistra) throws MyException{
-		if(unidadMovilDTO==null){
-			throw new MyException("No se puede registrar una uniadad movil vacia.");
+	public boolean registrarUnidadMovil(
+			String nombre,
+			String ubicacion,			
+			String usuarioRegistraUsuario) throws MyException{
+		
+		if(usuarioRegistraUsuario==null || usuarioRegistraUsuario.equals("") ){
+			throw new MyException("Ingrese un usuario que registra valido.");
+		}	
+		
+		EmpleadoDTO usuarioRegistra = 
+				empleadoDAO.obtener(usuarioRegistraUsuario);
+		if(usuarioRegistra == null){
+			throw new MyException("El usuario que registra no existe.");
 		}
 		if(!usuarioRegistra.getIdCargo().getNombre().equals("administrador"))
 		{
-			throw new MyException("El administrador es el unico que puede registrar usuarios.");
+			throw new MyException("El administrador es el unico que puede registrar unidades moviles.");
 		}
+		
+		if(nombre == null || nombre.equals("") ){
+			throw new MyException("El nombre no puede estar vacio.");
+		}else if(ubicacion == null || "".equals(ubicacion)){
+			throw new MyException("La ubicacion no puede estar vacia.");			
+		}
+		
+		UnidadMovilDTO unidadMovilDTO = new UnidadMovilDTO();
+		
+		unidadMovilDTO.setIdSede(usuarioRegistra.getIdSede());
+		unidadMovilDTO.setNombre(nombre);
+		unidadMovilDTO.setUbicacion(ubicacion);
+		
 		return unidadMovilDAO.guardar(unidadMovilDTO);
 	}
 	
@@ -101,10 +203,31 @@ public class EmpleadoBL {
 	 * @return true si se programo la cita satisfactoriamente
 	 * @throws MyException
 	 */
-	public boolean programarCitas(CitaDTO citaDTO, EmpleadoDTO enfermero, EmpleadoDTO administrador) throws MyException{
-		if(citaDTO==null){
-			throw new MyException("No se puede registrar una cita vacia.");
+	public boolean programarCitas(
+			String fecha,
+			String hora,			 
+			String usuarioEnfermero,
+			String usuarioAdministrador) throws MyException{
+		
+		if(usuarioEnfermero==null || usuarioEnfermero.equals("")){
+			throw new MyException("Ingrese el enfermero que asignara a la cita.");
+		}else if(usuarioAdministrador==null || usuarioAdministrador.equals("")){
+			throw new MyException("Ingrese el administrador asigna la cita.");
 		}
+		
+		EmpleadoDTO enfermero = empleadoDAO.obtener(usuarioEnfermero);
+		EmpleadoDTO administrador = empleadoDAO.obtener(usuarioAdministrador);
+		
+		if(enfermero==null){
+			throw new MyException("El enfermero asignado no existe.");
+		}else if(administrador==null){
+			throw new MyException("El administrador asignado no existe.");
+		}else if( fecha == null || fecha.equals("")){
+			throw new MyException("La fecha no puede estar vacia.");
+		}else if( hora == null || hora.equals("") ){
+			throw new MyException("La hora no puede estar vacia.");
+		}
+		
 		if(!administrador.getIdCargo().getNombre().equals("administrador"))
 		{
 			throw new MyException("El administrador es el unico que puede programar una cita.");
@@ -112,10 +235,26 @@ public class EmpleadoBL {
 			throw new MyException("Solo se le puede programar una cita a un enfermero");
 		}
 		
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
+		Date fechaCita;
+		
+        try {
+        	fechaCita = formatter.parse(fecha);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new MyException("Error generando fecha.");			
+		}
+        
+        CitaDTO citaDTO = new CitaDTO();
+        
+        citaDTO.setFecha(fechaCita);
+        citaDTO.setHora(hora);
+        citaDTO.setIdEnfermero(enfermero);
+        citaDTO.setIdSede(enfermero.getIdSede());		
 		citaDTO.setIdEnfermero(enfermero);
 		citaDTO.setIdSede(enfermero.getIdSede());
 		
-		return citaDAO.asignar(citaDTO);
+		return citaDAO.programarCita(citaDTO);
 	}
 	
 	/**
@@ -124,18 +263,28 @@ public class EmpleadoBL {
 	 * @return retorna la lista de respuestas del donante dado
 	 * @throws MyException
 	 */
-	public List<RespuestaDTO> consultarRespuestas (DonanteDTO donanteDTO) throws MyException{
+	public RespuestaDTO consultarRespuesta (String cedula, int id) throws MyException{
+		
+		if(cedula == null || cedula.equals("")){
+			throw new MyException("Ingrese la cedula de un donante registrado.");
+		}
+		
+		DonanteDTO donanteDTO = donanteDAO.obtener(cedula);
+		PreguntaDTO preguntaDTO = preguntaDAO.obtener(id);
+		
 		if(donanteDTO == null){
-			throw new MyException("No se pueden obtener las respuestas para un donante nulo.");
+			throw new MyException("El donante no existe");
+		}else if( preguntaDTO == null){
+			throw new MyException("La pregunta no existe");
 		}
 		
-		List<RespuestaDTO> respuestas = respuestaDAO.obtener(donanteDTO);
+		RespuestaDTO respuesta = respuestaDAO.obtener(preguntaDTO,donanteDTO);
 		
-		if(respuestas.isEmpty()){
-			throw new MyException("No hay respuestas registradas del usuario solicitado.");
+		if(respuesta == null){
+			throw new MyException("No hay respuestas registradas del usuario solicitado con dicha pregunta.");
 		}
 		
-		return respuestas;
+		return respuesta;
 	}
 	
 	/**
@@ -168,32 +317,34 @@ public class EmpleadoBL {
 	 * @param enfermero enfermero quien registra la donacion
 	 * @throws MyException
 	 */
-	public void registrarDE(DonanteDTO donanteDTO, 
-			DatosDonacionDTO datosDonacionDTO,
-			EmpleadoDTO enfermero) throws MyException{
+	public boolean registrarDE(
+			String cedula, 
+			int cantidad,
+			String usuarioEnfermero) throws MyException{
+		
+		if(cedula == null || cedula.equals("")){
+			throw new MyException("El donante no puede ser vacio");	
+		}else if(usuarioEnfermero == null || usuarioEnfermero.equals("")){
+			throw new MyException("El enfermero no puede ser vacio");	
+		}else if(cantidad <= 0){
+			throw new MyException("Cantidad a registrar debe ser mayor a 0");
+		}
+		
+		DonanteDTO donanteDTO = donanteDAO.obtener(cedula);
+		EmpleadoDTO enfermero = empleadoDAO.obtener(usuarioEnfermero);		
+
 		if(donanteDTO == null){
-			throw new MyException("El donante no puede ser vacio.");			
-		}else if(datosDonacionDTO == null){
-			throw new MyException("Los datos de donación no pueden ser vacios.");			
+			throw new MyException("El donante no existe.");			
 		}else if(enfermero == null){
-			throw new MyException("El enfermero no puede ser vacio");			
-		}else if(Integer.parseInt(donanteDTO.getEdad()) < 18){
-			throw new MyException("El donante no puede tener menos de 18 años.");
-		}else if(Integer.parseInt(donanteDTO.getEdad()) > 65){
-			throw new MyException("El donante no puede tener mas de 65 años.");
-		}else if(donanteDTO.getPeso() < 50){
-			throw new MyException("El donante no posee el peso suficiente (50Kg)");
-		}else if(!donanteDTO.getEstadoSalud().equals("Normal")){
-			throw new MyException("El donante no tiene buen estado de salud.");
+			throw new MyException("El enfermero no existe en el sistema.");			
 		}else if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
 			throw new MyException("Solo se puede registrar por enfermero.");
 		}
 		
-		//El atributo "apto" puede ser apto o noapto
-		donanteDTO.setApto("apto");
-		//El estado de donación puede ser "realizada" o "en proceso"
-		datosDonacionDTO.setEstadoDonacion("realizada");
-		
+		if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
+			throw new MyException("Solo se le puede programar una cita a un enfermero");
+		}
+				
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
 		String hoy = formatter.format(new Date());   
 		Date fechaHoy;
@@ -205,18 +356,31 @@ public class EmpleadoBL {
 			throw new MyException("Error generando fecha.");			
 		}
         
-        donanteDTO.setUltimaDonacion(fechaHoy);
+        DatosDonacionDTO datosDonacionDTO = new DatosDonacionDTO();
+		
+        datosDonacionDTO.setCantidad(cantidad);        
+		//El estado de donación puede ser "realizada" o "en proceso"
+        datosDonacionDTO.setEstadoDonacion("realizada");
+        datosDonacionDTO.setFecha(fechaHoy);
+        datosDonacionDTO.setIdRH(donanteDTO.getRh());
+               
+        DatosDonacionDTO resultado = datosDonacionDAO.guardar(datosDonacionDTO);
         
-		datosDonacionDTO.setFecha(fechaHoy);
-		datosDonacionDTO.setIdRH(donanteDTO.getRh());
+        System.out.println("____________Desde BL_____________________");
+        System.out.println(resultado.getId());
+        System.out.println("_________________________________");
+        donanteDTO.setUltimaDonacion(fechaHoy);		
+		donanteDTO.setApto("apto");
 		
 		DonacionExternaDTO donacionExternaDTO = new DonacionExternaDTO();
 		
-		donacionExternaDTO.setIdDatosDonacion(datosDonacionDTO);
+		donacionExternaDTO.setIdDatosDonacion(resultado);
 		donacionExternaDTO.setIdDonante(donanteDTO);
-		donacionExternaDTO.setIdUnidadMovil(enfermero.getIdUnidadMovil());		
+		donacionExternaDTO.setIdUnidadMovil(enfermero.getIdUnidadMovil());
 		
-		donacionExternaDAO.guardar(donacionExternaDTO);
+		
+		
+		return donacionExternaDAO.guardar(donacionExternaDTO);
 	}
 	
 	/**
@@ -226,15 +390,30 @@ public class EmpleadoBL {
 	 * @param enfermero enfermero quien registra la donacion
 	 * @throws MyException
 	 */
-	public void registrarDUR(UsuarioRegistradoDTO usuarioRegistradoDTO, 
-			DatosDonacionDTO datosDonacionDTO,
-			EmpleadoDTO enfermero) throws MyException{
+	public boolean registrarDUR(
+			String cedula,
+			int cantidad,
+			String usuarioEnfermero) throws MyException{
+		
+		if(cedula == null || cedula.equals("") ){
+			throw new MyException("El donante no puede ser vacio");	
+		}else if(usuarioEnfermero == null || usuarioEnfermero.equals("")){
+			throw new MyException("El enfermero no puede ser vacio");	
+		}else if(cantidad <= 0){
+			throw new MyException("Cantidad a registrar debe ser mayor a 0");
+		}
+		
+		UsuarioRegistradoDTO usuarioRegistradoDTO = 
+				usuarioRegistradoDAO.obtener(donanteDAO.obtener(cedula));
+		
+		EmpleadoDTO enfermero = 
+				empleadoDAO.obtener(usuarioEnfermero);
+		
+		
 		if(usuarioRegistradoDTO == null){
 			throw new MyException("El donante no puede ser vacio.");			
-		}else if(datosDonacionDTO == null){
-			throw new MyException("Los datos de donación no pueden ser vacios.");			
 		}else if(enfermero == null){
-			throw new MyException("Los datos de donación no pueden ser vacios.");			
+			throw new MyException("El enfermero no existe en el sistema.");			
 		}else if(Integer.parseInt(usuarioRegistradoDTO.getDocumentoUsuario().getEdad()) < 18){
 			throw new MyException("El donante no puede tener menos de 18 años.");
 		}else if(Integer.parseInt(usuarioRegistradoDTO.getDocumentoUsuario().getEdad()) > 65){
@@ -245,13 +424,10 @@ public class EmpleadoBL {
 			throw new MyException("El donante no tiene buen estado de salud.");
 		}else if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
 			throw new MyException("Solo se puede registrar por enfermero.");
+		}else if(cantidad < 0){
+			throw new MyException("Cantidad a registrar debe ser mayor a 0");
 		}
-		
-		//El atributo "apto" puede ser apto o noapto
-		usuarioRegistradoDTO.getDocumentoUsuario().setApto("apto");
-		//El estado de donación puede ser "realizada" o "en proceso"
-		datosDonacionDTO.setEstadoDonacion("realizada");
-		
+				
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
 		String hoy = formatter.format(new Date());   
 		Date fechaHoy;
@@ -262,19 +438,28 @@ public class EmpleadoBL {
 			e.printStackTrace();
 			throw new MyException("Error generando fecha.");			
 		}
-        
-        usuarioRegistradoDTO.getDocumentoUsuario().setUltimaDonacion(fechaHoy);
-        
+
+		
+		DatosDonacionDTO datosDonacionDTO = new DatosDonacionDTO();
+		
+		datosDonacionDTO.setCantidad(cantidad);
+		datosDonacionDTO.setEstadoDonacion("realizada");
 		datosDonacionDTO.setFecha(fechaHoy);
 		datosDonacionDTO.setIdRH(usuarioRegistradoDTO.getDocumentoUsuario().getRh());
+		        
+		DatosDonacionDTO resultado = datosDonacionDAO.guardar(datosDonacionDTO);
+		
+		//El atributo "apto" puede ser apto o noapto
+		usuarioRegistradoDTO.getDocumentoUsuario().setApto("apto");		
+        usuarioRegistradoDTO.getDocumentoUsuario().setUltimaDonacion(fechaHoy);
 		
 		DonacionUsuarioRegistradoDTO donacionUsuarioRegistradoDTO = new DonacionUsuarioRegistradoDTO();
 		
-		donacionUsuarioRegistradoDTO.setIdDatosDonacion(datosDonacionDTO);
+		donacionUsuarioRegistradoDTO.setIdDatosDonacion(resultado);
 		donacionUsuarioRegistradoDTO.setIdUsuarioRegistrado(usuarioRegistradoDTO);
 		donacionUsuarioRegistradoDTO.setIdSede(enfermero.getIdSede());		
 		
-		donacionUsuarioRegistradoDAO.guardar(donacionUsuarioRegistradoDTO);
+		return donacionUsuarioRegistradoDAO.guardar(donacionUsuarioRegistradoDTO);
 	}	
 	
 
@@ -285,22 +470,33 @@ public class EmpleadoBL {
 	 * @param administrador quien registra la donacion
 	 * @throws MyException
 	 */
-	public void registrarDS(SedeDTO sedeRecibo, 
-			DatosDonacionDTO datosDonacionDTO,
-			EmpleadoDTO administrador) throws MyException{
-		if(sedeRecibo == null){
-			throw new MyException("La sede de envio no puede ser vacio.");			
-		}else if(datosDonacionDTO == null){
-			throw new MyException("Los datos de donación no pueden ser vacios.");			
-		}else if(administrador == null){
-			throw new MyException("Los datos del administrador no pueden ser vacios.");			
-		}else if(!administrador.getIdCargo().getNombre().equals("administrador")){
-			throw new MyException("Solo se puede registrar por administrador.");
+	public boolean registrarDS(
+			int idSedeRecibo, 
+			int cantidad,
+			String rh,
+			String usuarioAdministrador) throws MyException{
+		
+		if(usuarioAdministrador == null || usuarioAdministrador.equals("") ){
+			throw new MyException("El administrador no puede ser vacio.");		
 		}
 		
-		//El estado de donación puede ser "realizada" o "en proceso"
-		datosDonacionDTO.setEstadoDonacion("realizada");
+		SedeDTO sedeRecibo =
+				sedeDAO.obtener(idSedeRecibo);
+		EmpleadoDTO administrador =
+				empleadoDAO.obtener(usuarioAdministrador);
 		
+		if(administrador == null){
+			throw new MyException("El administrador no existe.");			
+		}else if(!administrador.getIdCargo().getNombre().equals("administrador")){
+			throw new MyException("Solo se puede registrar por administrador.");
+		}else if(rh.equals("") || rh == null){
+			throw new MyException("El rh no puede ser vacio.");		
+		}else if(cantidad <= 0){
+			throw new MyException("Cantidad a registrar debe ser mayor a 0");
+		}else if(sedeRecibo == null){
+			throw new MyException("La sede de envio no puede ser vacio.");			
+		}
+				
 		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
 		String hoy = formatter.format(new Date());   
 		Date fechaHoy;
@@ -312,35 +508,45 @@ public class EmpleadoBL {
 			throw new MyException("Error generando fecha.");			
 		}        
         
+		DatosDonacionDTO datosDonacionDTO = new DatosDonacionDTO();
+		
+		datosDonacionDTO.setCantidad(cantidad);
+		datosDonacionDTO.setEstadoDonacion("realizada");
 		datosDonacionDTO.setFecha(fechaHoy);
+		datosDonacionDTO.setIdRH(rhDAO.obtener(rh));
+		
+		DatosDonacionDTO resultado = datosDonacionDAO.guardar(datosDonacionDTO);
 		
 		DonacionSedeDTO donacionSedeDTO = new DonacionSedeDTO();
 		
-		donacionSedeDTO.setIdDatosDonacion(datosDonacionDTO);
+		donacionSedeDTO.setIdDatosDonacion(resultado);
 		donacionSedeDTO.setIdSedeEnvio(administrador.getIdSede());
 		donacionSedeDTO.setIdSedeRecibo(sedeRecibo);
 		
-		donacionSedeDAO.guardar(donacionSedeDTO);
+		return donacionSedeDAO.guardar(donacionSedeDTO);
 	}
-	
+
 	/**
 	 * Con este metodo se obtienen las preguntas de un examen de eps
 	 * @param enfermero quien solicita las preguntas
 	 * @return lista con las preguntas
 	 * @throws MyException
 	 */
-	public List<PreguntaDTO> obtenerPreguntas(EmpleadoDTO enfermero, String version) throws MyException{
+	public List<PreguntaDTO> obtenerPreguntas(String usuario, String version) throws MyException{
+		
+		EmpleadoDTO enfermero = empleadoDAO.obtener(usuario);
+		
 		if(enfermero == null){
-			throw new MyException("El empleado no puede estar vacio");
+			throw new MyException("El empleado no existe.");
 		}else if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
 			throw new MyException("Debe ser enfermero para realizar esta acción");
-		}else if(version.equals("") || version ==null){
+		}else if(version ==null || version.equals("")){
 			throw new MyException("Debe ingresar una version valida para obtener el examen");
 		}
 		
 		System.out.println(enfermero.getIdSede().getIdEPS().getNombre());
 		EPSDTO eps = enfermero.getIdSede().getIdEPS();
-		
+			
 		List<ExamenDTO> examenes = 
 				examenDAO.obtener(eps);
 		if(examenes.isEmpty()){
@@ -362,23 +568,123 @@ public class EmpleadoBL {
 	 * @return true si se guardan correctamente
 	 * @throws MyException
 	 */
-	public boolean guardarRespuestas(List<RespuestaDTO> respuestas, EmpleadoDTO enfermero) throws MyException{
+	public boolean guardarRespuesta(int id,String documento, String descripcion, String usuario) throws MyException{
 		
-		if(respuestas == null){
-			throw new MyException("Las respuestas no pueden estar vacias");
+		EmpleadoDTO enfermero = empleadoDAO.obtener(usuario);
+		DonanteDTO donante = donanteDAO.obtener(documento);
+		PreguntaDTO preguntaDTO = preguntaDAO.obtener(id);
+		
+		if(documento == null || documento.equals("")){
+			throw new MyException("Ingrese el documento del usuario que respondio la pregunta");
+		}else if(descripcion == null || descripcion.equals("")){
+			throw new MyException("Ingrese la respuesta");
 		}else if(enfermero == null){
 			throw new MyException("El empleado no puede estar vacio");
 		}else if(!enfermero.getIdCargo().getNombre().equals("enfermero")){
 			throw new MyException("Debe ser enfermero para realizar esta acción");
-		}else if(respuestas.isEmpty()){
-			throw new MyException("Debe ingresar las respuestas");
+		}else if(donante == null){
+			throw new MyException("El donante no existe en el sistema");
+		}else if(preguntaDTO == null){
+			throw new MyException("La pregunta no existe en el sistema");
 		}
 		
-		for(RespuestaDTO respuesta : respuestas){
-			respuestaDAO.guardar(respuesta);
-		}
+		RespuestaDTO respuesta = new RespuestaDTO();
+		
+		respuesta.setDescripcion(descripcion);
+		respuesta.setDocumentoDonante(donante);
+		respuesta.setIdPregunta(preguntaDTO);
+		
+		respuestaDAO.guardar(respuesta);
+		
 		
 		return true;
+	}
+	
+	
+	/**
+	 * Con este metodo se registra un donante en el sistema
+	 * @param documento del donante
+	 * @param direccion del donante
+	 * @param edad del donante
+	 * @param estadoCivil del donante
+	 * @param estadoSalud del donante
+	 * @param fechaNacimiento del donante
+	 * @param nombres del donante
+	 * @param apellidos del donante
+	 * @param peso del donante
+	 * @param rh del donante
+	 * @return true si se registro correctamente el donante
+	 * @throws MyException
+	 */
+	public boolean registrarDonante (
+			String documento,
+			String direccion,
+			int edad,
+			String estadoCivil,
+			String estadoSalud,
+			String fechaNacimiento,
+			String nombres,
+			String apellidos,
+			int peso,
+			String rh) throws MyException{
+		
+		if(documento == null || documento.equals("")){
+			throw new MyException("El donante debe tener un documento.");
+		}else if(direccion == null || "".equals(direccion)){
+			throw new MyException("La direccion no puede ser vacia.");			
+		}else if(edad < 18){
+			throw new MyException("El donante no puede tener menos de 18 años.");
+		}else if(edad > 65){
+			throw new MyException("El donante no puede tener mas de 65 años.");
+		}else if(estadoCivil == null || "".equals(estadoCivil)){
+			throw new MyException("El estado civil no puede ser vacio.");			
+		}else if(estadoSalud == null || "".equals(estadoSalud)){
+			throw new MyException("El estado de salud no puede ser vacio.");			
+		}else if(fechaNacimiento == null || "".equals(fechaNacimiento)){
+			throw new MyException("La fecha de nacimiento no puede ser vacia.");			
+		}else if(nombres == null || "".equals(nombres)){
+			throw new MyException("El nombre no puede ser vacio.");			
+		}else if(apellidos == null || "".equals(apellidos)){
+			throw new MyException("El apellido no puede ser vacio.");			
+		}else if(rh == null || "".equals(rh)){
+			throw new MyException("El RH no puede ser vacio.");			
+		}else if(peso < 50){
+			throw new MyException("El donante no posee el peso suficiente (50Kg)");
+		}
+		
+		if( donanteDAO.obtener(documento) != null ){
+			throw new MyException("Ya hay un donante con el mismo documento.");
+		}
+		RHDTO rhdto = rhDAO.obtener(rh);
+		
+		if( rhdto == null){
+			throw new MyException("El tipo de sangre ingresado no existe en el sistema.");
+		}
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
+		Date fechaNacimientoDate;
+		
+        try {
+        	fechaNacimientoDate = formatter.parse(fechaNacimiento);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new MyException("Error generando fecha.");			
+		}
+        
+        DonanteDTO donanteDTO = new DonanteDTO();
+        
+        donanteDTO.setApellidos(apellidos);
+        donanteDTO.setDireccion(direccion);
+        donanteDTO.setDocumento(documento);
+        donanteDTO.setEdad(String.valueOf(edad));
+        donanteDTO.setEstadoCivil(estadoCivil);
+        donanteDTO.setEstadoSalud(estadoSalud);
+        donanteDTO.setFechaNacimiento(fechaNacimientoDate);
+        donanteDTO.setNombres(nombres);
+        donanteDTO.setPeso(peso);
+        donanteDTO.setRh(rhdto);	
+        
+        return donanteDAO.guardar(donanteDTO);		
 	}
 	
 	
@@ -477,7 +783,28 @@ public class EmpleadoBL {
 	public void setCargoDAO(CargoDAOImp cargoDAO) {
 		this.cargoDAO = cargoDAO;
 	}
-
-
 	
+	
+	public DonanteDAOImp getDonanteDAO() {
+		return donanteDAO;
+	}
+
+	public void setDonanteDAO(DonanteDAOImp donanteDAO) {
+		this.donanteDAO = donanteDAO;
+	}	
+	public SedeDAOImp getSedeDAO() {
+		return sedeDAO;
+	}
+
+	public void setSedeDAO(SedeDAOImp sedeDAO) {
+		this.sedeDAO = sedeDAO;
+	}
+	public DatosDonacionDAOImp getDatosDonacionDAO() {
+		return datosDonacionDAO;
+	}
+
+	public void setDatosDonacionDAO(DatosDonacionDAOImp datosDonacionDAO) {
+		this.datosDonacionDAO = datosDonacionDAO;
+	}
+
 }

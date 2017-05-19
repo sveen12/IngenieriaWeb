@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src= "./resource/js/angular.min.js"></script>
+<script type="text/javascript" src= "./resource/js/controlador.js"></script>
+</head>
+<body ng-app="primerModulo">
+	
+	<div ng-controller="primerControlador">
+	<a href="#" ng-click="eliminar()">Eliminar seleccionados</a>
+		<ul>
+			<li ng-repeat="item in lista">
+				<input type="checkbox" ng-model="item.checked"/>
+				<span>{{ item.texto }}</span>
+			</li>
+		</ul>
+		<div>
+			<input type="text" ng-model="texto"></input>
+			<button ng-click="agregar()">Agregar</button>
+		</div>
+	</div>
+</body>
+</html>

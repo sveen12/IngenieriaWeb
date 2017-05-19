@@ -6,6 +6,7 @@ public class SedeDTO {
 	private String direccion;
 	private String telefono;
 	private EPSDTO idEPS;
+	
 	public int getId() {
 		return id;
 	}

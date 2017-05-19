@@ -32,5 +32,5 @@ public interface DonanteDAO {
 	 * @param donanteDTO El donante que se quiere guardar
 	 * @throws MyException
 	 */
-	public void guardar(DonanteDTO donanteDTO) throws MyException;
+	public boolean guardar(DonanteDTO donanteDTO) throws MyException;
 }

@@ -3,6 +3,8 @@ package co.edu.udea.ws;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -27,13 +29,21 @@ public class ClienteWS {
 	
 	@POST
 	@Produces(MediaType.TEXT_HTML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public void guardar (	
-			@QueryParam("cedula") String cedula, 
-			@QueryParam("nombres") String nombres,
-			@QueryParam("apellidos") String apellidos,
-			@QueryParam("email") String email,
-			@QueryParam("usuarioCrea") String usuarioCrea)
+			@FormParam("cedula") String cedula, 
+			@FormParam("nombres") String nombres,
+			@FormParam("apellidos") String apellidos,
+			@FormParam("email") String email,
+			@FormParam("usuarioCrea") String usuarioCrea)
 					throws MyException{		
+		System.out.println("_______________________________________________________");
+		System.out.println(cedula);
+		System.out.println(nombres);
+		System.out.println(apellidos);
+		System.out.println(email);
+		System.out.println(usuarioCrea);
+		System.out.println("_______________________________________________________");
 		try{
 			clienteBL.guardar(cedula, nombres, apellidos, email, usuarioCrea);
 		}catch(MyException e){
@@ -43,19 +53,24 @@ public class ClienteWS {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)		
-	public List<Cliente> obtener () throws MyException{
-		List<Cliente> respuesta = new ArrayList<Cliente>();
+	public ArrayList<ClienteDTO> obtener () throws MyException{
+		List<ClienteDTO> respuesta;
 		try{
-			for (ClienteDTO clienteDTO: clienteBL.obtener()){
+			 respuesta = clienteBL.obtener();
+			 System.out.println("___________________________________________");
+			 System.out.println(respuesta.size());
+			 System.out.println("___________________________________________");
+			
+			/**for (ClienteDTO clienteDTO: clienteBL.obtener()){
 				Cliente cliente = new Cliente(clienteDTO.getCedula(), 
 						clienteDTO.getNombres(), clienteDTO.getApellidos(), 
 						clienteDTO.getEmail());
 				
 				respuesta.add(cliente);
-			}
+			}**/
 		}catch(MyException e){
 			throw new MyException("Problema consultando clientes");
 		}
-		return respuesta;
+		return (ArrayList<ClienteDTO>)respuesta;
 	}
 }

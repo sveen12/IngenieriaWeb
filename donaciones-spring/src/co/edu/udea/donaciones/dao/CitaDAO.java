@@ -56,5 +56,5 @@ public interface CitaDAO {
 	 * @param cita es la cita que se cancelara
 	 * @throws MyException
 	 */
-	public void programarCita(CitaDTO citaDTO ) throws MyException;
+	public boolean programarCita(CitaDTO citaDTO ) throws MyException;
 }

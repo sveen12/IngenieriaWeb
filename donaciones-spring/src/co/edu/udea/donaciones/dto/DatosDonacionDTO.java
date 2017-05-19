@@ -3,6 +3,7 @@ package co.edu.udea.donaciones.dto;
 import java.util.Date;
 
 public class DatosDonacionDTO {
+	
 	private int id;
 	private RHDTO idRH;
 	private String estadoDonacion;

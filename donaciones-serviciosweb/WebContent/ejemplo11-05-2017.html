@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cuestionario</title>
+<script type="text/javascript" src= "./resource/js/angular.min.js"></script>
+<script type="text/javascript" src= "./resource/js/cuestionario.js"></script>
+<link type="text/css" rel="stylesheet" href="./resource/css/estilo.css"/>
+</head>
+<body ng-app="moduloCuestionario">	
+	<div ng-controller="controladorCuestionario">
+		<div class="preguntas">
+			<div ng-repeat="pregunta in preguntas" class="pregunta">
+				<p class="estado-{{pregunta.estado}}">{{ pregunta.texto }}</p>	
+
+				<div ng-repeat="respuesta in pregunta.respuestas" >
+					<input type="radio" value= "{{respuesta.id}}"
+					name="pregunta{{pregunta.id}}"
+					id="respuesta{{pregunta.id}}{{respuesta.id}}"
+					ng-model="pregunta.respuestaSeleccionada"
+					ng-change="sumarRespuesta()" />
+					<label for="respuesta{{pregunta.id}}{{respuesta.id}}">
+						{{respuesta.texto}}
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="estadoUsuario {{estadoUsuario}}">
+			<span>Has acertado {{respuestasCorrectas}} de {{preguntas.length}}</span>
+		</div>
+
+		<button ng-click="validar()">Calificar</button>
+
+
+	</div>
+</body>
+</html>

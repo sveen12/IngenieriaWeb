@@ -25,11 +25,12 @@ public class DonacionExternaDAOImp implements DonacionExternaDAO{
 	}
 
 	@Override
-	public void guardar(DonacionExternaDTO donacionExternaDTO) throws MyException {
+	public boolean guardar(DonacionExternaDTO donacionExternaDTO) throws MyException {
 		Session session=null;
 		try{
 			session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(donacionExternaDTO);
+			return true;
 		}catch(HibernateException e){
 			throw new MyException("Error guardando la donacion externa en el sistema", e);
 		}		

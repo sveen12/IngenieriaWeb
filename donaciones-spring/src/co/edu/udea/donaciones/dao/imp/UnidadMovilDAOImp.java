@@ -1,11 +1,14 @@
 package co.edu.udea.donaciones.dao.imp;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.donaciones.dao.UnidadMovilDAO;
 import co.edu.udea.donaciones.dto.UnidadMovilDTO;
+import co.edu.udea.donaciones.dto.UsuarioRegistradoDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
 public class UnidadMovilDAOImp implements UnidadMovilDAO {
@@ -29,6 +32,22 @@ public class UnidadMovilDAOImp implements UnidadMovilDAO {
 		}catch(HibernateException e){
 			throw new MyException("Error guardando la unidad movil en el sistema", e);
 		}
+	}
+
+	@Override
+	public UnidadMovilDTO obtener(int id) throws MyException {
+		UnidadMovilDTO unidadMovilDTO= new UnidadMovilDTO();
+		Session session=null;
+		try{
+			session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(UnidadMovilDTO.class);
+			criteria.add(Restrictions.eq("id", id));
+			unidadMovilDTO = (UnidadMovilDTO)criteria.uniqueResult();
+		}catch(HibernateException e){
+			throw new MyException("Error consultando el la unidad movil", e);
+		}
+		
+		return unidadMovilDTO;
 	}
 
 }

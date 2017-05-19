@@ -11,6 +11,8 @@ public class EmpleadoDTO {
 	private CargoDTO idCargo;
 	private SedeDTO idSede;
 	private UnidadMovilDTO idUnidadMovil;
+	
+	
 	public String getDocumento() {
 		return documento;
 	}

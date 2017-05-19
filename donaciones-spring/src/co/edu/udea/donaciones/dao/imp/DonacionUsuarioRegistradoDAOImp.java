@@ -25,11 +25,13 @@ public class DonacionUsuarioRegistradoDAOImp implements DonacionUsuarioRegistrad
 	}
 
 	@Override
-	public void guardar(DonacionUsuarioRegistradoDTO donacionUsuarioRegistradoDTO) throws MyException {
+	public boolean guardar(DonacionUsuarioRegistradoDTO donacionUsuarioRegistradoDTO) throws MyException {
 		Session session=null;
 		try{
 			session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(donacionUsuarioRegistradoDTO);
+			
+			return true;
 		}catch(HibernateException e){
 			throw new MyException("Error guardando la donacion de usuario registrado en el sistema", e);
 		}

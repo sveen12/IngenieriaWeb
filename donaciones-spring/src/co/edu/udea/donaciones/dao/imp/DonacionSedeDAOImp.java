@@ -24,11 +24,12 @@ public class DonacionSedeDAOImp implements DonacionSedeDAO {
 	}
 
 	@Override
-	public void guardar(DonacionSedeDTO donacionSedeDTO) throws MyException {
+	public boolean guardar(DonacionSedeDTO donacionSedeDTO) throws MyException {
 		Session session=null;
 		try{
 			session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(donacionSedeDTO);
+			return true;
 		}catch(HibernateException e){
 			throw new MyException("Error guardando la donacion por sede en el sistema", e);
 		}

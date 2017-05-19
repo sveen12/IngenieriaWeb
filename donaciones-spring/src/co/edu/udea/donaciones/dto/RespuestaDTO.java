@@ -1,11 +1,17 @@
 package co.edu.udea.donaciones.dto;
 
 public class RespuestaDTO {
+
 	private int id;
 	private PreguntaDTO idPregunta;
 	private DonanteDTO documentoDonante;
 	private String descripcion;
 	
+	
+	
+	public RespuestaDTO() {
+		super();
+	}
 	public int getId() {
 		return id;
 	}
@@ -30,6 +36,4 @@ public class RespuestaDTO {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	
-	
 }

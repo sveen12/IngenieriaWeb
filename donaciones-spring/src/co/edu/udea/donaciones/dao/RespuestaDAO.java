@@ -3,6 +3,7 @@ package co.edu.udea.donaciones.dao;
 import java.util.List;
 
 import co.edu.udea.donaciones.dto.DonanteDTO;
+import co.edu.udea.donaciones.dto.PreguntaDTO;
 import co.edu.udea.donaciones.dto.RespuestaDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
@@ -20,6 +21,15 @@ public interface RespuestaDAO {
 	 * @throws MyException
 	 */
 	public List<RespuestaDTO> obtener(DonanteDTO donanteDTO) throws MyException;
+	
+	/**
+	 * Obtiene la respuesta a determinada pregunta de un usuario
+	 * @param preguntaDTO pregunta de la que se quiere obtener respuesta
+	 * @param donanteDTO donante del que se quiere obtener la respuesta
+	 * @return respuesta del donante para determinada pregunta
+	 * @throws MyException
+	 */
+	public RespuestaDTO obtener(PreguntaDTO preguntaDTO,DonanteDTO donanteDTO) throws MyException;
 	
 	/**
 	 * Guarda una respuesta de un usuario

@@ -6,7 +6,7 @@
     <class name="co.edu.udea.donaciones.dto.DatosDonacionDTO" table="datosdonacion">
         <id name="id" type="integer">
             <column name="id"/>
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <property name="cantidad" type="integer">
             <column name="cantidad"/>

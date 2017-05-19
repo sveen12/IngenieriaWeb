@@ -17,7 +17,7 @@ public interface DonacionUsuarioRegistradoDAO {
 	 * @param donacionUsuarioRegistradoDTO donacion que se quiere guardar
 	 * @throws MyException
 	 */
-	public void guardar(DonacionUsuarioRegistradoDTO donacionUsuarioRegistradoDTO) throws MyException;
+	public boolean guardar(DonacionUsuarioRegistradoDTO donacionUsuarioRegistradoDTO) throws MyException;
 	
 	/**
 	 * Lista de donaciones por usuario

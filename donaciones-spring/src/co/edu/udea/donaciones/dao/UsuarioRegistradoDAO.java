@@ -2,6 +2,7 @@ package co.edu.udea.donaciones.dao;
 
 import java.util.List;
 
+import co.edu.udea.donaciones.dto.DonanteDTO;
 import co.edu.udea.donaciones.dto.UsuarioRegistradoDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
@@ -27,6 +28,14 @@ public interface UsuarioRegistradoDAO {
 	 * @throws MyException
 	 */
 	public UsuarioRegistradoDTO loguear(String usuario,String contrasena) throws MyException;
+	
+	/**
+	 * Metodo para obtener un usuario dados sus datos de donacion
+	 * @param donanteDTO datos de donacion asociados al usuario
+	 * @return retorna un usuario con los datos brindados
+	 * @throws MyException
+	 */
+	public UsuarioRegistradoDTO obtener(DonanteDTO donanteDTO) throws MyException;
 	
 	/**
 	 * Guarda un usuario

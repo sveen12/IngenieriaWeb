@@ -20,6 +20,14 @@ public interface EmpleadoDAO {
 	public List<EmpleadoDTO> obtener() throws MyException;
 	
 	/**
+	 * Metodo para obtener un usuario en especifico
+	 * @param usuario nombre de usuario
+	 * @return Empleado que tiene el usuario asignado
+	 * @throws MyException
+	 */
+	public EmpleadoDTO obtener(String usuario) throws MyException;
+	
+	/**
 	 * Loguear un empleado
 	 * @param usuario Empleado que se logueara
 	 * @param contrasena contraseña del que se logueara

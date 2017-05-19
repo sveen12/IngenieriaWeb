@@ -40,6 +40,8 @@ public class PreguntaDAOImp implements PreguntaDAO {
 		}
 		return preguntaDTOs;
 	}
+	
+
 
 	@Override
 	public void guardar(PreguntaDTO preguntaDTO) throws MyException {
@@ -50,6 +52,22 @@ public class PreguntaDAOImp implements PreguntaDAO {
 		}catch(HibernateException e){
 			throw new MyException("Error guardando pregunta en el sistema", e);
 		}
+	}
+	
+	@Override
+	public PreguntaDTO obtener(int id) throws MyException {
+		PreguntaDTO preguntaDTOs =null;
+		Session session=null;
+		Criteria criteria = null;
+		try{
+			session = sessionFactory.getCurrentSession();
+			criteria = session.createCriteria(PreguntaDTO.class);
+			criteria.add(Restrictions.eq("id", id));
+			preguntaDTOs= (PreguntaDTO)criteria.uniqueResult();
+		}catch(HibernateException e){
+			throw new MyException("Error obteniendo preguntas por id", e);
+		}
+		return preguntaDTOs;
 	}
 
 }

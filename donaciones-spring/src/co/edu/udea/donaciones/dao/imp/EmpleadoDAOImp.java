@@ -79,4 +79,20 @@ public class EmpleadoDAOImp implements EmpleadoDAO {
 		}
 	}
 
+	@Override
+	public EmpleadoDTO obtener(String usuario) throws MyException {
+		EmpleadoDTO empleadoDTO= new EmpleadoDTO();
+		Session session=null;
+		try{
+			session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(EmpleadoDTO.class);
+			criteria.add(Restrictions.eq("usuario", usuario));
+			empleadoDTO = (EmpleadoDTO)criteria.uniqueResult();
+		}catch(HibernateException e){
+			throw new MyException("Error consultando el empleado por usuario", e);
+		}
+		
+		return empleadoDTO;
+	}
+
 }

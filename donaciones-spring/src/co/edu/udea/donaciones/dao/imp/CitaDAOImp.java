@@ -51,7 +51,6 @@ public final class CitaDAOImp implements CitaDAO{
 	public boolean cancelar(CitaDTO citaDTO) throws MyException {
 		// TODO Auto-generated method stub
 		Session session=null;
-		citaDTO.setEstadoCita("cancelada");
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String hoy = formatter.format(new Date());         
@@ -69,6 +68,8 @@ public final class CitaDAOImp implements CitaDAO{
         }
         
 		try{
+			citaDTO.setEstadoCita("cancelada");
+			citaDTO.setIdUsuarioRegistrado(null);
 			session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(citaDTO);
 		}catch(HibernateException e){
@@ -89,6 +90,20 @@ public final class CitaDAOImp implements CitaDAO{
 			citaDTO = (CitaDTO) criteria.uniqueResult();
 		}catch(HibernateException e){
 			throw new MyException("Error consultando la cita del usuario", e);
+		}		
+		return citaDTO;
+	}
+	
+	public CitaDTO obtener(int id) throws MyException {
+		CitaDTO citaDTO= new CitaDTO();
+		Session session=null;
+		try{
+			session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(CitaDTO.class);
+			criteria.add(Restrictions.eq("id", id));
+			citaDTO = (CitaDTO) criteria.uniqueResult();
+		}catch(HibernateException e){
+			throw new MyException("Error consultando la cita por id", e);
 		}		
 		return citaDTO;
 	}
@@ -123,13 +138,14 @@ public final class CitaDAOImp implements CitaDAO{
 	}
 
 	@Override
-	public void programarCita(CitaDTO citaDTO) throws MyException {
+	public boolean programarCita(CitaDTO citaDTO) throws MyException {
 		// TODO Auto-generated method stub
 		Session session=null;
 		citaDTO.setEstadoCita("disponible");
 		try{
 			session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(citaDTO);
+			return true;
 		}catch(HibernateException e){
 			throw new MyException("Error programando la cita", e);
 		}			

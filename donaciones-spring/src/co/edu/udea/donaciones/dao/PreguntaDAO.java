@@ -27,4 +27,12 @@ public interface PreguntaDAO {
 	 * @throws MyException
 	 */
 	public void guardar(PreguntaDTO preguntaDTO) throws MyException;
+	
+	/**
+	 * Metodo para obtener una pregunta por su id
+	 * @param id de la pregunta
+	 * @return reetorna la pregunta
+	 * @throws MyException
+	 */
+	public PreguntaDTO obtener(int id) throws MyException;
 }

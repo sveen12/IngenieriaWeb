@@ -11,6 +11,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.donaciones.dao.UsuarioRegistradoDAO;
+import co.edu.udea.donaciones.dto.DonanteDTO;
 import co.edu.udea.donaciones.dto.UsuarioRegistradoDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
@@ -75,6 +76,22 @@ public class UsuarioRegistradoDAOImp implements UsuarioRegistradoDAO{
 	}
 	
 	
+	@Override
+	public UsuarioRegistradoDTO obtener(DonanteDTO donanteDTO) throws MyException {
+		UsuarioRegistradoDTO usuarioRegistradoDTO= new UsuarioRegistradoDTO();
+		Session session=null;
+		try{
+			session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(UsuarioRegistradoDTO.class);
+			criteria.add(Restrictions.eq("documentoUsuario", donanteDTO));
+			usuarioRegistradoDTO = (UsuarioRegistradoDTO)criteria.uniqueResult();
+		}catch(HibernateException e){
+			throw new MyException("Error consultando el usuario por sus datos", e);
+		}
+		
+		return usuarioRegistradoDTO;
+	}
+	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -82,5 +99,6 @@ public class UsuarioRegistradoDAOImp implements UsuarioRegistradoDAO{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
 
 }

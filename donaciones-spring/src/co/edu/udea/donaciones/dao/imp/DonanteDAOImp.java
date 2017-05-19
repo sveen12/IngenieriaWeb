@@ -56,11 +56,12 @@ public class DonanteDAOImp implements DonanteDAO {
 	}
 
 	@Override
-	public void guardar(DonanteDTO donanteDTO) throws MyException {
+	public boolean guardar(DonanteDTO donanteDTO) throws MyException {
 		Session session=null;
 		try{
 			session = sessionFactory.getCurrentSession();
 			session.saveOrUpdate(donanteDTO);
+			return true;
 		}catch(HibernateException e){
 			throw new MyException("Error guardando donante en el sistema", e);
 		}

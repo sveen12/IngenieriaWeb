@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 
 import co.edu.udea.donaciones.dao.RespuestaDAO;
 import co.edu.udea.donaciones.dto.DonanteDTO;
+import co.edu.udea.donaciones.dto.PreguntaDTO;
 import co.edu.udea.donaciones.dto.RespuestaDTO;
 import co.edu.udea.donaciones.exception.MyException;
 
@@ -50,6 +51,23 @@ public class RespuestaDAOImp implements RespuestaDAO {
 		}catch(HibernateException e){
 			throw new MyException("Error guardando respuesta en el sistema", e);
 		}
+	}
+
+	@Override
+	public RespuestaDTO obtener(PreguntaDTO preguntaDTO, DonanteDTO donanteDTO) throws MyException {
+		RespuestaDTO respuestaDTOs = null;
+		Session session=null;
+		Criteria criteria = null;
+		try{
+			session = sessionFactory.getCurrentSession();
+			criteria = session.createCriteria(RespuestaDTO.class);
+			criteria.add(Restrictions.eq("idPregunta", preguntaDTO));
+			criteria.add(Restrictions.eq("documentoDonante", donanteDTO));
+			respuestaDTOs=(RespuestaDTO)criteria.uniqueResult();
+		}catch(HibernateException e){
+			throw new MyException("Error obteniendo respuestas por usuario y pregunta", e);
+		}
+		return respuestaDTOs;
 	}
 
 }
